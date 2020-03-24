@@ -17,17 +17,17 @@ app.listen(port, ()=>{
 app.post('/users',(req,res)=>{
   User.create(
     {
-      name: req.body.newData.name,
-      email: req.body.newData.email,
-      password: req.body.newData.password
+      name:req.body.newData.name,
+      email:req.body.newData.email,
+      password:req.body.newData.password
     },
     (err,data)=>{
       if (err){
         res.json({success: false, message: err})
       } else if (!data) {
-        res.json({success:false, message: "Not Found"})
+        res.json({success: false, message: "Not Found"})
       } else {
-        res.json({success:true, data: data})
+        res.json({success: true, data: data})
       }
     })
 })
@@ -50,14 +50,42 @@ app.route('/users/:id')
      } else {
        res.json({
          success: true,
-         data:data
+         data: data
        })
      }
    })
 })
 // UPDATE
 .put((req,res)=>{
-  // User.findByIdAndUpdate()
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      name:req.body.newData.name,
+      email:req.body.newData.email,
+      password:req.body.newData.password
+    },
+    {
+      new:true
+    },
+    (err,data)=>{
+      if (err){
+        res.json({
+          success: false,
+          message: err
+        })
+      } else if (!data){
+        res.json({
+          success: false,
+          message: "Not Found"
+        })
+      } else {
+        res.json({
+          success: true,
+          data: data
+        })
+      }
+    }
+  )
 })
 // DELETE
 .delete((req,res)=>{
